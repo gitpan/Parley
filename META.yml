@@ -1,0 +1,57 @@
+--- 
+abstract: Message board / forum application
+author: 
+  - Chisel Wright C<< <chiselwright@users.berlios.de> >>
+build_requires: 
+  Test::More: 0
+  Test::WWW::Mechanize::Catalyst: 0
+distribution_type: module
+generated_by: Module::Install version 0.68
+license: perl
+meta-spec: 
+  url: http://module-build.sourceforge.net/META-spec-v1.3.html
+  version: 1.3
+name: Parley
+no_index: 
+  directory: 
+    - inc
+    - t
+requires: 
+  Cache::FastMmap: 0
+  Catalyst: 5.7001
+  Catalyst::Action::RenderView: 0
+  Catalyst::Model::DBIC::Schema: 0
+  Catalyst::Plugin::Authentication: 0
+  Catalyst::Plugin::Authentication::Credential::Password: 0
+  Catalyst::Plugin::Authentication::Store::DBIC: 0
+  Catalyst::Plugin::ConfigLoader: 0
+  Catalyst::Plugin::Dumper: 0
+  Catalyst::Plugin::Email: 0
+  Catalyst::Plugin::FillInForm: 0
+  Catalyst::Plugin::FormValidator: 0
+  Catalyst::Plugin::I18N: 0
+  Catalyst::Plugin::Session: 0
+  Catalyst::Plugin::Session::State::Cookie: 0
+  Catalyst::Plugin::Session::Store::FastMmap: 0
+  Catalyst::Plugin::StackTrace: 0
+  Catalyst::Plugin::Static::Simple: 0
+  Catalyst::View::TT: 0
+  Data::FormValidator: 4.50
+  Data::SpreadPagination: 0
+  DateTime: 0
+  DateTime::Format::Pg: 0
+  DateTime::TimeZone: 0
+  Email::Valid: 0
+  Graphics::Magick: 0
+  HTML::FillInForm: 1.07
+  Image::Size: 0
+  JSON: 0
+  List::MoreUtils: 0
+  MIME::Lite: 0
+  Perl6::Export::Attrs: 0
+  Proc::Daemon: 0
+  Proc::PID::File: 0
+  Readonly: 0
+  Text::Context::EitherSide: 0
+  YAML: 0
+version: 0.58_12

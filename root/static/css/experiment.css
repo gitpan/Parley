@@ -5,7 +5,7 @@
     line-height:    80px;
     margin:         0px;
     padding-left:   10px;
-    background:     #EEE;
+    background:     #EEE url('/static/images/parley_logo.jpg') no-repeat left;
     color:          #79B30B
 }
 
@@ -447,6 +447,18 @@ th {
     display:            block;
     font-size:          85%;
     text-align:         right;
+}
+
+.user_login form {
+    width:              350px;
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-top:         20px;
+}
+
+.user_login p {
+    margin-top:         5px;
+    margin-bottom:      5px;
 }
 
 .user_post_info {

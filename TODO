@@ -1,8 +1,6 @@
 TODO LIST
 
   - investigate in-application language preference/choice
-  - post/edit: preview (message) code
-  - styling: post/edit
   - styling: thread/reply
   - styling: user prefs
   - styling: user profile
@@ -12,7 +10,15 @@ TODO LIST
   - application logo
   - advanced search page
   - proper moderator support/management
+     - forum creation
+     - abuse handling
+     - post editing (other users)
   - IP/user reporting
+  - voting?
+D - styling: post/edit
+D - styling: user/login
+D - styling: thread/add
+D - post/edit: preview (message) code
 D - [bug] fix error when trying to post new thread with no subject line
 ? - see if we can work out why 'make catalyst_par' is failing
 D - i18n Login and Cancel buttons in login_dialog

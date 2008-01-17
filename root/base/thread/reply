@@ -6,6 +6,8 @@
 <div class="thread_header">
     <a href="forum/view?forum=[% current_forum.id %]">[% ForumCode.escape(current_forum.name) %]</a>
     &nbsp;:&nbsp;
+    [%l('Reply')%]
+    &nbsp;:&nbsp;
     [% ForumCode.escape(current_thread.subject) %]
 </div>
 
@@ -17,6 +19,23 @@
 [% END %]
 
 <!-- The post we're replying to -->
+<!--
+<table style="margin-top:10px;">
+    <tbody>
+        <tr>
+            <td>
+                [%l('Replying To')%]:
+            </td>
+            <td class="reply_post_message">
+                <div class="innerpost">
+                    [% FILTER html_line_break %][% ForumCode.forumcode(responding_to_post.message) %][% END %]
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+-->
+
 <table style="margin-top:10px;">
   <tr>
     <td class="post_subject">

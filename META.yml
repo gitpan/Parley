@@ -54,4 +54,4 @@ requires:
   Readonly: 0
   Text::Context::EitherSide: 0
   YAML: 0
-version: 0.58_14
+version: 0.58_17

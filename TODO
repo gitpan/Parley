@@ -1,19 +1,35 @@
 TODO LIST
 
+  - Quick Reply
+  - login form doesn't submit onEnter
+  - TESTS, TESTS, TESTS!
   - investigate in-application language preference/choice
-  - styling: user prefs
-  - styling: user profile
-  - [bug] fix email notification for thread notification emails
   - write some sensible T&Cs
   - update avatar update response to force a No-Cache?
-  - application logo
   - advanced search page
   - proper moderator support/management
      - forum creation
      - abuse handling
      - post editing (other users)
-  - IP/user reporting
+     - IP/user reporting
   - voting?
+  - 'smileys'?
+  - realtime time-format example update (my/prefs - tab_time)
+  - timezone menu usability
+  - skinning (user pref overrides CSS used?)
+  - posting page ForumCode help/tips
+  - database versioning
+D - login form flickers on IE7 page load
+D - [bug] user/profile doesn't show avatar
+D - add i18n for 'or'
+D - more visible Create New Thread
+D - [bug] can't logout
+D - styling: user prefs
+D - styling: user profile
+D - disabled menu items don't look disabled
+D - more visible Login/Register
+D - [bug] fix email notification for thread notification emails
+D - application logo
 D - styling: thread/reply
 D - styling: post/edit
 D - styling: user/login

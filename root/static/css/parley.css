@@ -29,6 +29,11 @@ div#user_information {
     height:             70px;
     width:              200px;
     padding-top:        3px;
+    text-align:         center;
+}
+
+div#user_information .user_info_actions {
+    margin-top:         3px;
 }
 
 /* CSS bug fixes */
@@ -131,6 +136,10 @@ th {
 }
 
 /* style classes */
+.align_right {
+    text-align:         right;
+}
+
 .forum_description {
     font-size:          93%;
 }
@@ -441,6 +450,10 @@ th {
     text-align:         left;
 }
 
+.top_padded {
+    margin-top:         10px;
+}
+
 .topic_creator {
     display:            block;
     font-size:          85%;
@@ -553,3 +566,50 @@ a[href $='.pdf']{
 }
 
 
+/* YUI CSS overrides */
+
+/* make disabled menuitems look 'different' */
+.yuimenuitem .disabled {
+    color:              #A6A6A6;
+    cursor:             default;
+}
+
+/* tabview (user prefs) */
+
+/* .yui-navset defaults to .yui-navset-top */ 
+.yui-skin-sam .yui-navset .yui-nav, 
+.yui-skin-sam .yui-navset .yui-navset-top .yui-nav { /* protect nested tabviews from other orientations */ 
+    border:solid #333; /* color between tab list and content */ 
+    border-width:0 0 5px; 
+    Xposition:relative; 
+    zoom:1; 
+}
+
+.yui-skin-sam .yui-navset .yui-content { 
+    background:transparent; /* content background color */ 
+}
+
+.yui-skin-sam .yui-navset .yui-nav a, 
+.yui-skin-sam .yui-navset .yui-navset-top .yui-nav a { 
+    background-image:   none;
+    background-color:   #999;
+    border:             solid #a3a3a3; 
+    border-width:       0 1px; 
+    color:              #fff;
+    text-decoration:    none; 
+}
+
+
+.yui-skin-sam .yui-navset .yui-nav .selected a, 
+.yui-skin-sam .yui-navset .yui-nav .selected a:focus, /* no focus effect for selected */ 
+.yui-skin-sam .yui-navset .yui-nav .selected a:hover { /* no hover effect for selected */ 
+    background:#333;
+    color:#fff;
+}
+
+.yui-skin-sam .yui-navset .yui-nav a:hover, 
+.yui-skin-sam .yui-navset .yui-nav a:focus { 
+    background: #666;
+    color: #fff;
+    outline:0; 
+}

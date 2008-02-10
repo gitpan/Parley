@@ -46,7 +46,7 @@
         <script type="text/javascript" src="[%c.request.base%]/static/yui/container/container_core-min.js"></script>
         <script type="text/javascript" src="[%c.request.base%]/static/yui/container/container-min.js"></script>
         <script type="text/javascript" src="[%c.request.base%]/static/yui/utilities/utilities.js"></script>
-        <script type="text/javascript" src="[%c.request.base%]/static/yui/button/button-beta-min.js"></script>
+        <script type="text/javascript" src="[%c.request.base%]/static/yui/button/button-min.js"></script>
         <script type="text/javascript" src="[%c.request.base%]/static/yui/menu/menu-min.js"></script>
         <script type="text/javascript" src="[%c.request.base%]/static/yui/tabview/tabview-min.js"></script>
         <script type="text/javascript" src="[%c.request.base%]/static/yui/logger/logger-min.js"></script>
@@ -59,11 +59,6 @@
     <body class="yui-skin-sam">
         <div id="doc3">
             <div id="hd">
-                <!--
-                <img src="[%c.uri_for('/static/images/parley_logo.jpg')%]" />
-                <h1>Parley</h1>
-                -->
-
                 <div id="user_information">
                     [%l('Current User')%]:
                     [% IF authed_user %]
@@ -80,6 +75,21 @@
                         <img src="/static/images/icons/flags/gb.png" width="16" height="11" alt="GB" />
                         [% END %]
                     </a>
+                    [% IF authed_user %]
+                    <div class="user_info_actions">
+                        [
+                            <a href="[%c.uri_for('/user/logout')%]">[%l('Logout')%]</a>
+                        ]
+                    </div>
+                    [% ELSE %]
+                    <div class="user_info_actions">
+                        [
+                            <a href="javascript:YAHOO.parley.login.login_dialog.show();">[%l('Login')%]</a>
+                        [%l('or')%]
+                            <a href="[%c.uri_for('/user/signup')%]">[%l('Register')%]</a>
+                        ]
+                    </div>
+                    [% END %]
                 </div>
             </div><!-- id="hd" -->
 

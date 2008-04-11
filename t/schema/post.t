@@ -30,6 +30,8 @@ $schematest->methods(
                 reply_to_id
                 edited
                 ip_addr
+                admin_editor_id
+                locked
             ]
         ],
 
@@ -44,6 +46,7 @@ $schematest->methods(
                 quoted_post
                 post_quoted_posts
                 people
+                admin_editor
             ]
         ],
 
@@ -56,6 +59,7 @@ $schematest->methods(
 
         resultsets => [
             qw[
+                record_from_id
                 people_posting_from_ip
                 last_post_in_list
                 next_post

@@ -2,6 +2,8 @@ package Parley::Controller::Root;
 # vim: ts=8 sts=4 et sw=4 sr sta
 use strict;
 use warnings;
+
+use Parley::Version;  our $VERSION = $Parley::VERSION;
 use base 'Catalyst::Controller';
 
 use DateTime;
@@ -15,6 +17,22 @@ use Parley::App::Error qw( :methods );
 # so they function identically to actions created in MyApp.pm
 #
 __PACKAGE__->config->{namespace} = '';
+
+sub begin :Private {
+    my ($self, $c) = @_;
+
+    # deal with access banned by IP
+    my $ip = $c->request->address;
+    my $access_banned =
+        $c->model('ParleyDB::IpBan')->is_access_banned($ip);
+    if ($access_banned) {
+        $c->stash->{template} = 'user/access_ip_banned';
+        return;
+    }
+
+    return 1;
+}
+
 
 # pre-populate values in the stash if we're given "appropriate" information:
 # - _authed_user
@@ -31,8 +49,6 @@ sub auto : Private {
     # do we have a request for a chosen language?
     ##################################################
     if (defined $c->request->param('lang')) {
-        $c->log->debug('SET LANG: ' . $c->request->param('lang'));
-        $c->log->debug($c->request->referer());
         $c->response->cookies->{ $cookie_name } = {
             value       => $c->request->param('lang'),
             expires     => '+14d',
@@ -71,14 +87,8 @@ sub auto : Private {
     }
 
     # get a list of (all/available) forums
-    $c->stash->{available_forums} = $c->model('ParleyDB')->resultset('Forum')->search(
-        {
-            active  => 1,
-        },
-        {
-            order_by    => 'name ASC',
-        }
-    );
+    $c->stash->{available_forums} =
+        $c->model('ParleyDB::Forum')->available_list();
 
     ##################################################
     # do we have a post id in the URL?
@@ -96,18 +106,8 @@ sub auto : Private {
 
         # get the matching post
         $c->_current_post(
-            $c->model('ParleyDB')->resultset('Post')->find(
-                {
-                    'me.id'  => $c->request->param('post')
-                },
-                {
-                    prefetch => [
-                        { thread => 'forum' },
-                        'creator',
-                        'reply_to',
-                        'quoted_post',
-                    ],
-                }
+            $c->model('ParleyDB::Post')->record_from_id(
+                $c->request->param('post')
             )
         );
 
@@ -137,17 +137,8 @@ sub auto : Private {
 
         # get the matching thread
         $c->_current_thread(
-            $c->model('ParleyDB')->resultset('Thread')->find(
-                {
-                    'me.id'  => $c->request->param('thread'),
-                },
-                {
-                    prefetch => [
-                        { 'forum' => 'last_post' },
-                        'creator',
-                        'last_post',
-                    ]
-                }
+            $c->model('ParleyDB::Thread')->record_from_id(
+                $c->request->param('thread')
             )
         );
 
@@ -172,15 +163,8 @@ sub auto : Private {
 
         # get the matching forum
         $c->_current_forum(
-            $c->model('ParleyDB')->resultset('Forum')->find(
-                {
-                    'me.id'  => $c->request->param('forum'),
-                },
-                {
-                    prefetch => [
-                        'last_post',
-                    ],
-                }
+            $c->model('ParleyDB::Forum')->record_from_id(
+                $c->request->param('forum')
             )
         );
     }
@@ -191,13 +175,13 @@ sub auto : Private {
     if ( $c->user and not defined $c->_authed_user ) {
         $c->log->info('Fetching user information for ' . $c->user->id);
 
+        # FIXME : move this to the ResultSet class?
         # get the person info for the username
         my $row = $c->model('ParleyDB')->resultset('Person')->find(
             {
                 'authentication.username'   => $c->user->username(),
             },
             {
-                join => 'authentication',
                 prefetch => [
                     'authentication',
                     { 'preference' => 'time_format' },
@@ -210,17 +194,36 @@ sub auto : Private {
         my $status = terms_check($c, $c->_authed_user);
         if (not $status) {
             $c->res->body('need to accept');
-            $c->log->debug('User needs to accept T&Cs');
             return 0;
         }
     }
 
+    ############################################################
+    # if we have a suspended user ...
+    ############################################################
+    if (
+        $c->_authed_user
+            and
+        $c->_authed_user->suspended
+            and
+        $c->request->path() !~ m{user/suspended}
+            and
+        $c->request->path() !~ m{user/logout}
+    ) {
+        $c->forward('/user/suspended');
+        return 0;
+    }
+
 
     ######################################
-    # TopDog is always a site moderator
+    # user's with 'site_moderator' role
+    # get flagged as such
     # ####################################
-    if (defined $c->_authed_user() and 0 == $c->_authed_user()->id()) {
-        $c->log->debug( q{topdog user site-moderates anything he wants} );
+    if (
+        defined $c->_authed_user()
+            and
+        $c->check_user_roles('site_moderator')
+    ) {
         $c->stash->{site_moderator} = 1;
     }
 
@@ -229,12 +232,12 @@ sub auto : Private {
     # user moderate it?
     ##################################################
     if (defined $c->_authed_user() and defined $c->_current_forum()) {
-        # 'topdog' user can moderate anything
-        if (0 == $c->_authed_user()->id()) {
-            $c->log->debug( q{topdog user moderates anything he wants} );
+        # site_moderators can moderate anything
+        if ($c->check_user_roles('site_moderator')) {
             $c->stash->{moderator} = 1;
         }
         else {
+            # FIXME : move this to the ResultSet class?
             # look up person/forum
             my $results = $c->model('ParleyDB')->resultset('ForumModerator')->find(
                 {
@@ -248,7 +251,6 @@ sub auto : Private {
             );
             # if we found something, they must moderate the current forum
             if ($results) {
-                #$c->log->debug( q{user moderates this forum} );
                 $c->stash->{moderator} = 1;
             }
         }
@@ -274,6 +276,10 @@ sub default : Private {
     $c->response->body( $c->localize('404 Not Found') );
 }
 
+sub access_denied :Local {
+    my ($self, $c) = @_;
+    parley_die($c,"Unauthorized!");
+}
 
 # deal with the end of the phase
 sub render : ActionClass('RenderView') {

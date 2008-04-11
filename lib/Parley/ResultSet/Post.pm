@@ -3,25 +3,42 @@ package Parley::ResultSet::Post;
 use strict;
 use warnings;
 
+use Parley::Version;  our $VERSION = $Parley::VERSION;
+
 use base 'DBIx::Class::ResultSet';
 
-sub people_posting_from_ip {
-    my ($resultsource, $ip_addr) = @_;
+sub record_from_id {
+    my ($resultset, $post_id) = @_;
     my ($rs);
 
-    $rs = $resultsource->search(
+    $rs = $resultset->find(
+        {
+            'me.id'  => $post_id,
+        },
+        {
+            prefetch => [
+                { thread => 'forum' },
+                'creator',
+                'reply_to',
+                'quoted_post',
+            ],
+        }
+    );
+
+    return $rs;
+}
+
+sub people_posting_from_ip {
+    my ($resultset, $ip_addr) = @_;
+    my ($rs);
+
+    $rs = $resultset->search(
         {
             ip_addr     => $ip_addr,
         },
         {
-            select => [
-                { distinct => 'creator_id' },
-            ],
-            as => [ 'foobar' ],
-
-            prefetch => [
-                'creator',
-            ],
+            distinct    => 1,
+            columns     => [ qw/creator_id/ ],
         }
     );
 

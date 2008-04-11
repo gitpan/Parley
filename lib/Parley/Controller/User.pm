@@ -1,8 +1,12 @@
 package Parley::Controller::User;
-
+# vim: ts=8 sts=4 et sw=4 sr sta
 use strict;
 use warnings;
+
+use Parley::Version;  our $VERSION = $Parley::VERSION;
 use base 'Catalyst::Controller';
+
+use JSON;
 
 # deal with user login requests on user/login
 sub login : Path('/user/login') {
@@ -14,6 +18,16 @@ sub login : Path('/user/login') {
     $c->stash->{'login_message'} = delete( $c->session->{login_message} );
     # make sure we use the correct template - we sometimes detach() here
     $c->stash->{template} = 'user/login';
+
+
+    # deal with logins banned by IP
+    my $ip = $c->request->address;
+    my $login_banned =
+        $c->model('ParleyDB::IpBan')->is_login_banned($ip);
+    if ($login_banned) {
+        $c->stash->{template} = 'user/login_ip_banned';
+        return;
+    }
 
     # if we have a username, try to log the user in
     if ( $c->request->param('username') ) {
@@ -116,6 +130,72 @@ sub profile :Local {
     }
 }
 
+sub suspend :Local {
+    my ($self, $c) = @_;
+    my ($json, $return_data, $person);
+
+    if (not $c->_authed_user->can_suspend_account) {
+        $return_data->{error}{message} =
+            $c->localize(q{You don't have the required privileges to do that});
+    }
+
+    else {
+        my ($suspended, $person);
+
+        # default to turning OFF a suspension
+        $suspended = 0;
+
+        # see if we meet the criteria for a suspend action
+        if (
+            defined $c->request->param('suspend')
+                and
+            1 == $c->request->param('suspend')
+        ) {
+            $suspended = 1;
+        }
+
+        eval {
+            # see if we can find the person to suspend
+            $person = $c->model('ParleyDB::Person')->find(
+                $c->request->param('person')
+            );
+
+            if (defined $person) {
+                $return_data->{data}{suspended} = $suspended;
+                $return_data->{data}{name} = $person->forum_name;
+
+                # suspend a person, giving a reson
+                $person->set_suspended(
+                    {
+                        value   => $suspended,
+                        reason  => $c->request->param('reason'),
+                        admin   => $c->_authed_user,
+                    }
+                );
+            }
+            else {
+                $return_data->{error}{message} =
+                    $c->localize(q{We're not in Kansas any more});
+            }
+        };
+        if ($@) {
+            $return_data->{error}{message} = $@;
+            $c->log->error($@);
+        }
+    }
+
+    # return some JSON
+    $json = to_json($return_data);
+    $c->response->body( $json );
+    $c->log->info( $json );
+    return;
+}
+
+sub suspended :Local {
+    my ($self, $c) = @_;
+    $c->stash->{template} = 'user/suspended';
+    return;
+}
 
 1;
 

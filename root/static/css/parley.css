@@ -1,5 +1,10 @@
 /* core layout styling */
 
+body {
+    background-color:   #fff;
+    font-family:        Verdana,Arial,Helvetica,sans-serif;
+}
+
 #hd {
     height:         80px;
     line-height:    80px;
@@ -136,6 +141,19 @@ th {
 }
 
 /* style classes */
+
+.admin_edited_post {
+    color:              #000;
+    background:         #ccc;
+    padding:            2px;
+    padding-left:       10px;
+    padding-right:      10px;
+    border:             1px dashed #000;
+    margin-left:        15px;
+    font-size:          93%;
+    text-align:         right;
+}
+
 .align_right {
     text-align:         right;
 }
@@ -226,6 +244,12 @@ th {
     padding-top:        none;
     padding-bottom:     none;
     background-color:   transparent;
+}
+
+.info_column {
+}
+
+.info_column_counts {
 }
 
 .innerpost {
@@ -472,6 +496,35 @@ th {
     margin-bottom:      5px;
 }
 
+.user_permission_list  {
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-top:         15px;
+    font-size:          93%;
+    width:              100%;
+}
+.user_permission_list td {
+    vertical-align:     top;
+    border:             1px dashed #ddd;
+    border:             none;
+    line-height:        150%;
+    padding-left:       10px;
+    padding-right:      10px;
+    padding-top:        5px;
+    padding-bottom:     5px;
+}
+.user_permission_list img {
+    vertical-align: middle;
+}
+
+.forum_moderator_list div input{
+    height: 150%;
+}
+.forum_moderator_list img {
+    vertical-align: middle;
+}
+
+
 .user_post_info {
     background:         #ccc;
     background:         transparent;
@@ -517,6 +570,18 @@ a[href $='.pdf']{
     font-size:          93%;
     width:              450px;
 }
+
+#ysearch {
+    text-align:         center;
+}
+#ysearchinput {
+    position:           static;
+    width:              20em;
+} /* to center, set static and explicit width: */
+#ysearchcontainer {
+    text-align:         left;
+    width:              20em;
+} /* to center, set left-align and explicit width: */
 
 /* ForumCode styles */
 .forumcode_code {

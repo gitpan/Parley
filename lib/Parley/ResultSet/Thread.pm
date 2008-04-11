@@ -3,6 +3,8 @@ package Parley::ResultSet::Thread;
 use strict;
 use warnings;
 
+use Parley::Version;  our $VERSION = $Parley::VERSION;
+
 use base 'DBIx::Class::ResultSet';
 
 # This is slightly complicated; the way we find the last post a user has seen
@@ -125,6 +127,26 @@ sub recent {
             ],
         }
     );
+}
+
+sub record_from_id {
+    my ($resultsource, $thread_id) = @_;
+    my ($rs);
+
+    $rs = $resultsource->find(
+        {
+            'me.id'  => $thread_id,
+        },
+        {
+            prefetch => [
+                { 'forum' => 'last_post' },
+                'creator',
+                'last_post',
+            ]
+        }
+    );
+
+    return $rs;
 }
 
 1;

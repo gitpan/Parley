@@ -1,6 +1,8 @@
 package Parley::Controller::My;
 use strict;
 use warnings;
+
+use Parley::Version;  our $VERSION = $Parley::VERSION;
 use base 'Catalyst::Controller';
 
 use Graphics::Magick;
@@ -478,7 +480,7 @@ sub saveHandler : Local {
                     . q{.</p>}
                 ;
                 $return_data->{updated} = 0;
-                $json = objToJson($return_data);
+                $json = to_json($return_data);
                 $c->response->body( $json );
                 $c->log->info( $json );
                 return;

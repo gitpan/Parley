@@ -2,6 +2,8 @@ package Parley::Controller::User::SignUp;
 
 use strict;
 use warnings;
+
+use Parley::Version;  our $VERSION = $Parley::VERSION;
 use base 'Catalyst::Controller';
 
 use List::MoreUtils qw{ uniq };
@@ -66,6 +68,21 @@ my %dfv_profile_for = (
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Controller Actions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+sub begin :Private {
+    my ($self, $c) = @_;
+
+    # deal with logins banned by IP
+    my $ip = $c->request->address;
+    my $signup_banned =
+        $c->model('ParleyDB::IpBan')->is_signup_banned($ip);
+    if ($signup_banned) {
+        $c->stash->{template} = 'user/signup_ip_banned';
+        return;
+    }
+
+    return 1;
+}
 
 sub authenticate : Path('/user/authenticate') {
     my ($self, $c, $auth_id) = @_;

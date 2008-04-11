@@ -25,6 +25,12 @@ msgstr "404 Not Found"
 msgid "ACCEPT TERMS"
 msgstr "You need to accept the Terms and Conditions below to continue using the site"
 
+msgid "Access Denied"
+msgstr "Access Denied"
+
+msgid "Access to this application is not permitted from %1"
+msgstr "Access to this application is not permitted from %1"
+
 msgid "Activate Your %s Registration"
 msgstr "Activate Your %s Registration"
 
@@ -43,11 +49,17 @@ msgstr "Add T&amp;Cs"
 msgid "Add Watch"
 msgstr "Add Watch"
 
+msgid "ADMIN LOCK POST"
+msgstr "Lock this post"
+
 msgid "ADMIN SPECIFY LOCK THREAD"
 msgstr "You must specify the thread to lock"
 
 msgid "ADMIN SPECIFY STICK THREAD"
 msgstr "You must specify the thread to stick"
+
+msgid "Administration"
+msgstr "Administration"
 
 msgid "ago"
 msgstr "ago"
@@ -236,6 +248,19 @@ msgstr "Incomplete authentication URL"
 msgid "Incomplete URL"
 msgstr "Incomplete URL"
 
+# e.g. Invalid user-id
+msgid "Invalid %1"
+msgstr "Invalid %1"
+
+msgid "Invalid requested value"
+msgstr "Invalid requested value"
+
+msgid "IP Bans"
+msgstr "IP Bans"
+
+msgid "IP Information"
+msgstr "IP Information"
+
 msgid "IP Logged"
 msgstr "IP Logged"
 
@@ -269,8 +294,8 @@ msgstr "Lock Thread"
 msgid "Locked"
 msgstr "Locked"
 
-msgid "Locked Topic"
-msgstr "Locked Topic"
+msgid "Locked Post"
+msgstr "Locked Post"
 
 msgid "LOGIN ADD REPLY"
 msgstr "You must be logged in before you can add a reply."
@@ -299,8 +324,17 @@ msgstr "Logged in as"
 msgid "Login"
 msgstr "Login"
 
+msgid "Login Not Allowed"
+msgstr "Login Not Allowed"
+
+msgid "Logins are not permitted from %1"
+msgstr "Logins are not permitted from %1"
+
 msgid "Logout"
 msgstr "Logout"
+
+msgid "Manage"
+msgstr "Manage"
 
 msgid "Me"
 msgstr "Me"
@@ -343,6 +377,9 @@ msgstr "No"
 
 msgid "No posts"
 msgstr "No posts"
+
+msgid "No reason given"
+msgstr "No reason given"
 
 msgid "NO MATCHING USERS"
 msgstr "There are no users matching that information"
@@ -449,6 +486,9 @@ msgstr "person"
 msgid "Please choose a language"
 msgstr "Please choose a language"
 
+msgid "Please enter suspension information"
+msgstr "Please enter suspension information"
+
 msgid "Please enter your information"
 msgstr "Please enter your information"
 
@@ -460,6 +500,15 @@ msgstr "people"
 
 msgid "posted by"
 msgstr "posted by"
+
+msgid "Posting is not permitted from %1"
+msgstr "Posting is not permitted from %1"
+
+msgid "Posting Not Allowed"
+msgstr "Posting Not Allowed"
+
+msgid "Post Edited By: %1"
+msgstr "Post Edited By: %1"
 
 msgid "Posted from %1"
 msgstr "Posted from %1"
@@ -500,6 +549,9 @@ msgstr "Post New Topic"
 msgid "Quote"
 msgstr "Quote"
 
+msgid "Reason for suspension"
+msgstr "Reason for suspension"
+
 msgid "Recently Updated Threads"
 msgstr "Recently Updated Threads"
 
@@ -508,6 +560,12 @@ msgstr "Register"
 
 msgid "Registration Complete"
 msgstr "Registration Complete"
+
+msgid "Registrations are not permitted from %1"
+msgstr "Registrations are not permitted from %1"
+
+msgid "Registration Not Allowed"
+msgstr "Registration Not Allowed"
 
 msgid "Remove Watch"
 msgstr "Remove Watch"
@@ -626,6 +684,12 @@ msgstr "Subject"
 msgid "Summary of Changes"
 msgstr "Summary of Changes"
 
+msgid "Suspend Account"
+msgstr "Suspend Account"
+
+msgid "Suspended"
+msgstr "Suspended"
+
 msgid "TERMS ADD NEW"
 msgstr "Add New Site Terms &amp; Conditions"
 
@@ -722,6 +786,12 @@ msgstr "Incorrect Username Supplied."
 msgid "Username"
 msgstr "Username"
 
+msgid "Users"
+msgstr "Users"
+
+msgid "User Roles"
+msgstr "User Roles"
+
 msgid "View"
 msgstr "View"
 
@@ -743,6 +813,12 @@ msgstr "Watch this thread"
 msgid "watching this thread"
 msgstr "watching this thread"
 
+msgid "We're not in Kansas any more"
+msgstr "We're not in Kansas any more"
+
+msgid "Users"
+msgstr "Users"
+
 msgid "wrote"
 msgstr "wrote"
 
@@ -754,6 +830,9 @@ msgstr "You are not watching any threads"
 
 msgid "You are watching this thread"
 msgstr "You are watching this thread"
+
+msgid "You don't have the required privileges to do that"
+msgstr "You don't have the required privileges to do that"
 
 msgid "Your Details"
 msgstr "Your Details"

@@ -1,8 +1,9 @@
 --- 
 abstract: Message board / forum application
 author: 
-  - Chisel Wright C<< <chiselwright@users.berlios.de> >>
+  - Chisel Wright<chiselwright@users.berlios.de>
 build_requires: 
+  Test::DBIx::Class::Schema: 0.01004
   Test::More: 0
   Test::WWW::Mechanize::Catalyst: 0
 distribution_type: module
@@ -24,6 +25,8 @@ requires:
   Catalyst::Plugin::Authentication: 0
   Catalyst::Plugin::Authentication::Credential::Password: 0
   Catalyst::Plugin::Authentication::Store::DBIC: 0
+  Catalyst::Plugin::Authorization::ACL: 0
+  Catalyst::Plugin::Authorization::Roles: 0
   Catalyst::Plugin::ConfigLoader: 0
   Catalyst::Plugin::Dumper: 0
   Catalyst::Plugin::Email: 0
@@ -45,13 +48,21 @@ requires:
   Graphics::Magick: 0
   HTML::FillInForm: 1.07
   Image::Size: 0
-  JSON: 0
+  JSON: 2.04
   List::MoreUtils: 0
   MIME::Lite: 0
+  Net::IP::Match::Regexp: 0
   Perl6::Export::Attrs: 0
   Proc::Daemon: 0
   Proc::PID::File: 0
   Readonly: 0
   Text::Context::EitherSide: 0
+  Time::Piece: 0
   YAML: 0
-version: 0.58
+version: !!perl/hash:version 
+  original: v0.59.03
+  qv: 1
+  version: 
+    - 0
+    - 59
+    - 3

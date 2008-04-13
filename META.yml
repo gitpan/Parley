@@ -59,10 +59,4 @@ requires:
   Text::Context::EitherSide: 0
   Time::Piece: 0
   YAML: 0
-version: !!perl/hash:version 
-  original: v0.59.03
-  qv: 1
-  version: 
-    - 0
-    - 59
-    - 3
+version: 0.59.04

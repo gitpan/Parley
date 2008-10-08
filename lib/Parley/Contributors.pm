@@ -1,4 +1,5 @@
 package Parley::Contributors;
+use strict;
 use Parley::Version;  our $VERSION = $Parley::VERSION;
 
 # this is a dummy package to provide POD
@@ -30,6 +31,8 @@ L<FamFamFam Flag Icons|http://www.famfamfam.com/lab/icons/flags/>
 =head2 Dutch
 
 Translation by Rob Partridge
+
+Additional translations by Kevin Golding
 
 =head2 Italian
 

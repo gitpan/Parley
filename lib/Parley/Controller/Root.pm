@@ -173,8 +173,6 @@ sub auto : Private {
     # if we have a user ... fetch some info (if we don't already have it)
     ############################################################
     if ( $c->user and not defined $c->_authed_user ) {
-        $c->log->info('Fetching user information for ' . $c->user->id);
-
         # FIXME : move this to the ResultSet class?
         # get the person info for the username
         my $row = $c->model('ParleyDB')->resultset('Person')->find(
@@ -278,7 +276,7 @@ sub default : Private {
 
 sub access_denied :Local {
     my ($self, $c) = @_;
-    parley_die($c,"Unauthorized!");
+    parley_die($c,$c->localize('Unauthorized!'));
 }
 
 # deal with the end of the phase
@@ -302,8 +300,13 @@ sub end : Private {
     $c->forward('render');
 
     # fill in any forms
-    $c->fillform( );
-    $c->fillform( $c->stash->{formdata} );
+    $c->fillform(
+        {
+            # combine two hashrefs so we only make one method call
+            %{ $c->request->parameters || {} },
+            %{ $c->stash->{formdata}   || {} },
+        }
+    );
 }
 
 

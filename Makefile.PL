@@ -8,20 +8,17 @@ name            ('Parley');
 author          ('Chisel Wright<chiselwright@users.berlios.de>');
 abstract        ('Message board / forum application');
 license         ('perl');
-#version_from    ('lib/Parley/Version.pm');
-version         ('0.59.04');
+version         ('1.0.1');
 
 requires(
     'Catalyst'                                                  => '5.008001',
+    'Catalyst::Runtime'                                         => 0,
     'Catalyst::Action::RenderView'                              => 0,
+    'Catalyst::Authentication::Store::DBIx::Class'              => '0.10',
     'Catalyst::Model::DBIC::Schema'                             => 0,
-    'Catalyst::Plugin::Authentication'                          => 0,
-    'Catalyst::Plugin::Authentication::Credential::Password'    => 0,
-    'Catalyst::Plugin::Authentication::Store::DBIC'             => 0,
     'Catalyst::Plugin::Authorization::ACL'                      => 0,
     'Catalyst::Plugin::Authorization::Roles'                    => 0,
     'Catalyst::Plugin::ConfigLoader'                            => 0,
-    'Catalyst::Plugin::Dumper'                                  => 0,
     'Catalyst::Plugin::Email'                                   => 0,
     'Catalyst::Plugin::FillInForm'                              => 0,
     'Catalyst::Plugin::FormValidator'                           => 0,
@@ -33,13 +30,14 @@ requires(
     'Catalyst::Plugin::StackTrace'                              => 0,
     'Catalyst::Plugin::Static::Simple'                          => 0,
     'Catalyst::View::TT'                                        => 0,
+    'Config::General'                                           => 2.37,
     'Data::FormValidator'                                       => '4.50',
     'Data::SpreadPagination'                                    => 0,
     'DateTime'                                                  => 0,
     'DateTime::Format::Pg'                                      => 0,
     'DateTime::TimeZone'                                        => 0,
     'Email::Valid'                                              => 0,
-    'Graphics::Magick'                                          => 0,
+    'Image::Magick'                                             => 0,
     'HTML::FillInForm'                                          => '1.07',
     'Image::Size'                                               => 0,
     'JSON'                                                      => '2.04',
@@ -52,7 +50,6 @@ requires(
     'Readonly'                                                  => 0,
     'Text::Context::EitherSide'                                 => 0,
     'Time::Piece'                                               => 0,
-    'YAML'                                                      => 0,
 );
 
 build_requires (
@@ -61,8 +58,10 @@ build_requires (
     'Test::DBIx::Class::Schema'                                 => '0.01004',
 );
 
+tests_recursive;
+
 catalyst;
 
 install_script glob('script/*.pl');
-auto_install;
+#auto_install;
 WriteAll;

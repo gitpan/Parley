@@ -108,17 +108,12 @@ __PACKAGE__->belongs_to(
 __PACKAGE__->belongs_to(
   "authentication" => "Authentication",
   { 'foreign.id' => 'self.authentication_id' },
+    { join_type => 'left' }
 );
 __PACKAGE__->has_many(
   "registration_authentications",
   "RegistrationAuthentication",
   { "foreign.recipient" => "self.id" },
-);
-
-__PACKAGE__->has_many(
-    map_user_role => 'Parley::Schema::UserRole',
-    'person_id',
-    { join_type => 'right' }
 );
 
 sub roles {
@@ -129,11 +124,11 @@ sub roles {
 
     $rs = $schema->resultset('Role')->search(
         {
-            'person.id'  => $record->id(),
+            'authentication.id'  => $record->authentication_id(),
         },
         {
             prefetch => [
-                { 'map_user_role' => 'person' },
+                { 'map_user_role' => 'authentication' },
             ],
         }
     );
@@ -154,14 +149,14 @@ sub check_user_roles {
 
     $rs = $schema->resultset('Role')->search(
         {
-            'map_user_role.person_id'   => $record->id(),
+            'map_user_role.authentication_id'   => $record->authentication_id(),
             'me.name' => {
                 -in => \@roles,
             },
         },
         {
             prefetch => [
-                { 'map_user_role' => 'person' },
+                { 'map_user_role' => 'authentication' },
             ],
         },
     );
@@ -177,23 +172,21 @@ sub check_any_user_role {
         if (not @roles);
 
     my ($schema, $rs);
-
     $schema = $record->result_source()->schema();
 
     $rs = $schema->resultset('Role')->search(
         {
-            'map_user_role.person_id'   => $record->id(),
+            'map_user_role.authentication_id'   => $record->authentication_id(),
             'me.name' => {
                 -in => \@roles,
             },
         },
         {
             prefetch => [
-                { 'map_user_role' => 'person' },
+                { 'map_user_role' => 'authentication' },
             ],
         },
     );
-
     return ($rs->count > 0);
 }
 
@@ -262,7 +255,7 @@ sub last_suspension {
         {
             join => [qw( action )],
             rows => 1,
-            order_by    => 'created DESC',
+            order_by    => [\'created DESC'],
         }
     );
 

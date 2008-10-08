@@ -12,6 +12,7 @@ body {
     padding-left:   10px;
     background:     #EEE url('/static/images/parley_logo.jpg') no-repeat left;
     color:          #79B30B
+    color:          #3366CC;
 }
 
 #hd h1 {
@@ -74,6 +75,7 @@ div#user_information .user_info_actions {
     margin-top:         5px;
     margin-bottom:      5px;
     color:              #79B30B
+    color:              #3366CC;
 }
 
 /* links */
@@ -87,6 +89,18 @@ a, a:link, a:visited, a:active {
     color:              blue;
     text-decoration:    none;
 }
+
+/* lists */
+ol li {
+    list-style-type:        decimal;
+    list-style-position:    inside;
+}
+
+ul li {
+    list-style-type:        disc;
+    list-style-position:    inside;
+}
+
 
 /* tables */
 th {
@@ -158,6 +172,23 @@ th {
     text-align:         right;
 }
 
+
+.error_messages {
+    margin-top: 5px;
+    display: block;
+    line-height: 1.7em;
+    padding: 5px;
+    background-color: #993300;
+    color: #ffffff;
+    text-transform: none;
+    font-family: Arial, Avenir, "Lucida Grande", Verdana, "Bitstream Vera Sans", Helvetica, sans-serif;
+    font-weight: bold;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: 1.0em;
+    border: none;
+}
+
 .forum_description {
     font-size:          93%;
 }
@@ -166,8 +197,8 @@ th {
     text-align:         right;
 }
 .forum_lastpost_subject a {
-    color:              #333;
     color:              #79B30B
+    color:              #3366CC;
 }
 .forum_link {
     font-size:          100%;
@@ -201,8 +232,8 @@ th {
     margin-top:         5px;
 }
 .forum_name a {
-    color:              #333;
     color:              #79B30B
+    color:              #3366CC;
 }
 .forum_postcount {
     font-size:          85%;
@@ -357,6 +388,21 @@ th {
     padding-top:        5px;
     padding-bottom:     5px;
 }
+.service_list  {
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-top:         15px;
+    width:              100%;
+    font-size:          93%;
+}
+.service_list td {
+    vertical-align:     top;
+    border:             1px dashed #ddd;
+    border:             none;
+    line-height:        120%;
+    padding-left:       10px;
+    padding-right:      10px;
+}
 
 .site_terms {
     width:              80%;
@@ -464,8 +510,8 @@ th {
 
 .thread_subject a {
     font-size:          93%;
-    color:              #333;
     color:              #79B30B
+    color:              #3366CC;
 }
 
 .thread_watch {

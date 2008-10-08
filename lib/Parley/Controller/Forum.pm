@@ -13,17 +13,8 @@ sub list : Local {
 
     # get a list of (active) forums
     $c->stash->{forum_list} =
-        $c->model('ParleyDB')->resultset('Forum')->search(
-            {
-                active => 1,
-            },
-            {
-                'order_by'  => 'me.id ASC',
-                prefetch => [
-                    {'last_post' => { 'creator' => 'authentication' } },
-                ],
-            }
-        );
+        $c->model('ParleyDB')->resultset('Forum')
+            ->forum_list();
 }
 
 sub view : Local {
@@ -46,7 +37,7 @@ sub view : Local {
             },
             {
                 join        => 'last_post',
-                order_by    => 'sticky DESC, last_post.created DESC',
+                order_by    => [\'sticky DESC', \'last_post.created DESC'],
                 # pager information
                 rows        => $c->config->{threads_per_page},
                 page        => $c->stash->{current_page},

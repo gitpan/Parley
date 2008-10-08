@@ -84,7 +84,7 @@ sub users_autocomplete : Local {
             forum_name => { -ilike => $c->request->param('query') . q{%} },
         },
         {
-            'order_by' => 'forum_name',
+            'order_by' => [\'forum_name ASC'],
             columns => [qw/id forum_name first_name last_name/],
         }
     );
@@ -109,7 +109,7 @@ sub users_autocomplete : Local {
 sub roleSaveHandler :Local {
     my ($self, $c) = @_;
     my ($return_data, $json);
-    my ($person_id, $role_id, $value);
+    my ($person_id, $role_id, $value, $person);
 
     $person_id  = $c->request->param('person');
     $role_id    = $c->request->param('role');
@@ -132,22 +132,25 @@ sub roleSaveHandler :Local {
             $c->localize('Invalid requested value');
     }
 
+    # find the person
+    $person = $c->model('ParleyDB::Person')->find( $person_id );
+
     # remove the role?
-    elsif (0 == $value) {
+    if (0 == $value) {
         # try to remove the join table entry
         eval {
             $c->model('ParleyDB')->schema->txn_do(
                 sub {
                     my $userrole = $c->model('ParleyDB::UserRole')->find(
                         {
-                            person_id   => $person_id,
-                            role_id     => $role_id,
+                            authentication_id   => $person->authentication_id,
+                            role_id             => $role_id,
                         }
                     );
 
                     # moderator suicide?
                     if (
-                        $person_id = $c->_authed_user->id
+                        $person_id == $c->_authed_user->id
                             and
                         q{site_moderator} eq $userrole->role->name
                     ) {
@@ -184,7 +187,7 @@ sub roleSaveHandler :Local {
                 sub {
                     $c->model('ParleyDB::UserRole')->update_or_create(
                         {
-                            person_id   => $person_id,
+                            authentication_id   => $person->authentication_id,
                             role_id     => $role_id,
                         }
                     )
@@ -213,7 +216,7 @@ sub roleSaveHandler :Local {
     # return some JSON
     $json = to_json($return_data);
     $c->response->body( $json );
-    $c->log->info( $json );
+    #$c->log->info( $json );
     return;
 }
 
@@ -261,7 +264,7 @@ sub fmodSaveHandler :Local {
     # return some JSON
     $json = to_json($return_data);
     $c->response->body( $json );
-    $c->log->info( $json );
+    #$c->log->info( $json );
     return;
 }
 
@@ -333,7 +336,7 @@ sub saveBanHandler :Local {
             $c->log->error( $@ );
             $json = to_json($return_data);
             $c->response->body( $json );
-            $c->log->info( $json );
+            #$c->log->info( $json );
             return;
         }
     }
@@ -347,7 +350,7 @@ sub saveBanHandler :Local {
     # return some JSON
     $json = to_json($return_data);
     $c->response->body( $json );
-    $c->log->info( $json );
+    #$c->log->info( $json );
     return;
 }
 

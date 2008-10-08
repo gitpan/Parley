@@ -7,7 +7,6 @@ use Parley::Version;  our $VERSION = $Parley::VERSION;
 
 use Catalyst::Runtime '5.70';
 use Catalyst qw/
-    Dumper
     StackTrace
 
     ConfigLoader
@@ -23,9 +22,6 @@ use Catalyst qw/
     Session::State::Cookie
 
     Authentication
-    Authentication::Store::DBIC
-    Authentication::Credential::Password
-
     Authorization::Roles
     Authorization::ACL
 
@@ -34,7 +30,14 @@ use Catalyst qw/
 
 use Parley::App::Communication::Email qw( :email );
 
-__PACKAGE__->config( version => $VERSION );
+VERSION_MADNESS: {
+    use version;
+    my $vstring = version->new($VERSION)->normal;
+    __PACKAGE__->config(
+        version => $vstring
+    );
+}
+
 __PACKAGE__->setup;
 
 # only show certain log levels in output
@@ -51,7 +54,6 @@ __PACKAGE__->log (Catalyst::Log->new( @{__PACKAGE__->config->{log_levels}} ));
 ##    [$_]
 ##)
 ##for qw/ip_ban_posting site_moderator/;
-
 __PACKAGE__->deny_access_unless(
     '/site/fmodSaveHandler',
     [qw/site_moderator/]
@@ -103,6 +105,11 @@ __PACKAGE__->deny_access_unless(
     '/site/users_autocomplete',
     [qw/site_moderator/]
 );
+
+#__PACKAGE__->deny_access_unless(
+#    '/site/users',
+#    [qw/site_moderator/]
+#);
 
 
 # ---- END:   ACL RULES ----

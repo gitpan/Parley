@@ -6,8 +6,68 @@ other translations being made from it.  As a consequence of this, i-default
 will be used as the 'en' i18n file.
 It's unlikely that we'll need an 'en' file in the project.
 
-0.59 (UNDER DEVELOPMENT)
+1.0.1
 
+    Differences are now tracked and reported using a script that compares
+    a given language with 'i_default'.
+    The comparisons are generated and viewed as follows:
+
+       ./script/update_i18n_todo.sh
+       more todo.i18n/*
+
+    (2008-10-06)
+
+1.0.0
+
+    i_default.po:
+        - added:
+            - "User has never posted"
+            - "Manage user roles"
+            - "Unauthorized!"
+
+    it.po:
+        - added:
+            - "Access Denied"
+            - "Administration"
+            - "IP Bans"
+            - "IP Information"
+            - "Invalid %1"
+            - "Invalid requested value"
+            - "Login Not Allowed"
+            - "Logins are not permitted from %1"
+            - "Manage"
+            - "Manage user roles"
+            - "No Moderators"
+            - "No reason given"
+            - "Please enter suspension information"
+            - "Posting Not Allowed"
+            - "Posting is not permitted from %1"
+            - "Reason for suspension"
+            - "Registration Not Allowed"
+            - "Registrations are not permitted from %1"
+            - "Snippet"
+            - "Suspend Account"
+            - "Suspended"
+            - "Unauthorized!"
+            - "User Roles"
+            - "User has never posted"
+            - "Users"
+            - "view"
+            - "views"
+            - "We're not in Kansas any more"
+            - "You don't have the required privileges to do that"
+
+    nl.po:
+        - fixed:
+            - "Searching for"
+
+        - added:
+            - "IP Information"
+            - "Manage user roles"
+            - "Unauthorized!"
+            - "User has never posted"
+
+0.59
     i_default.po:
         - added:
             - "ADMIN LOCK POST"

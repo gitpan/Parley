@@ -5,7 +5,7 @@ use warnings;
 use Parley::Version;  our $VERSION = $Parley::VERSION;
 use base 'Catalyst::Controller';
 
-use Graphics::Magick;
+use Image::Magick;
 use JSON;
 use Image::Size qw( html_imgsize imgsize );
 
@@ -102,7 +102,7 @@ sub auto : Private {
         $c->model('ParleyDB')->resultset('PreferenceTimeString')->search(
             {},     # fetch everything
             {
-                order_by    => 'sample',    # order by the "preview/sample" string
+                order_by    => [\'sample ASC'],    # order by the "preview/sample" string
             }
         );
 
@@ -160,7 +160,7 @@ sub preferences : Local {
             watched     => 1,
         },
         {
-            order_by    => 'last_post.created DESC',
+            order_by    => [\'last_post.created DESC'],
             join        => {
                 'thread' => 'last_post',
             },
@@ -339,7 +339,14 @@ sub _process_form_avatar {
 
         # create the directory if it doesn't exist
         if (not -d $target_dir) {
-            mkdir $target_dir;
+            # try to create the target directory
+            mkdir $target_dir or do {
+                $c->log->error( qq{$target_dir - $!} );
+                parley_warn($c, $c->localize(q{FILE NEWDIR FAILED}));
+                return;
+            };
+
+            # if for some reason the directory still doesn't exist..
             if (not -d $target_dir) {
                 parley_warn($c, $c->localize(q{FILE NEWDIR FAILED}));
                 $c->log->error( qq{$target_dir - $!} );
@@ -547,7 +554,7 @@ sub _convert_and_scale_image {
     my ($width, $height) = imgsize($file);
 
     # create a new image mangling object
-    my $img = Graphics::Magick->new()
+    my $img = Image::Magick->new()
         or die $!;
 
     # read in the image file

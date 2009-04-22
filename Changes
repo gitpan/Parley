@@ -1,5 +1,44 @@
 This file documents the revision history for Parley.
 
+1.1.0   Wed Apr 22 21:53:52 BST 2009
+    - added Advanced Search page
+    - added Add This (www.addthis.com) to thread/view page
+      (if username set in configuration)
+    - modified CSS for "user information"; now the header is a fixed-width we
+      can place this div inside it (instead of flushed to the RHS of the
+      page/window)
+    - added Google Analytics (configurable via parley.conf)
+    - switch to using Catalyst::Controller::Validation::DFV for form re-fill
+    - use mk_accessors instead of home-grown rubbish
+    - added reCaptcha to signup screen
+    - added check for unique username/forumname (signup)
+    - added "Login and X" buttons in thread view
+    - removed a couple of "use base 'Catalyst::Controller'" calls for classes
+      that "use base" another module that already inherits from it
+      (result of upgrading to 5.80001)
+
+1.0.4   Wed Dec 24 18:54:24 GMT 2008
+    - fixed skin2
+    - remove yui/ softlink
+    - made yui_2.6.0/ into yui/
+
+1.0.3   Tue Dec 23 09:34:32 GMT 2008
+    - switch to database store for sessions
+    - upgrade to YUI 2.6.0
+    - use Test::Aggregate
+      - aggregate controller_*.t tests
+      - aggregate t/schema/*.t tests
+    - use HTML::ForumCode for post preview
+    - added /forumcode/preview
+    - make "Posted from a.b.c.d" a clickable link to site/ip_info
+    - CSS/layout tweaks and improvements
+    - added template skinning [beta]
+    - added example skins: skin1, skin2, skin3
+      - skin1 - CSS only
+      - skin2 - copy of all template files
+      - skin3 - one template file overridden
+    - added user "skin" preference choice
+
 1.0.2   Thu Oct  9 14:52:26 BST 2008
     - fixed "vanishing '+' symbol" issue in Message Preview
     - removed ->dumper() calls that were overlooked and caused fatal errors

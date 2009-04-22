@@ -1,13 +1,12 @@
 package Parley::Controller::Post;
-
+# vim: ts=8 sts=4 et sw=4 sr sta
 use strict;
 use warnings;
 
 use Parley::Version;  our $VERSION = $Parley::VERSION;
 use base 'Catalyst::Controller';
 use DateTime;
-use JSON;
-use Template::Plugin::ForumCode;
+use HTML::ForumCode;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Global class data
@@ -166,19 +165,8 @@ sub view : Local {
 
 sub preview : Local {
     my ($self, $c) = @_;
-    my $tt_forum = Template::Plugin::ForumCode->new();
-    my $msg_source = $c->request->param('msg_source');
-
-    my $json = to_json(
-        {
-            'formatted' =>
-                $tt_forum->forumcode(
-                    $msg_source
-                )
-        }
-    );
-
-    $c->response->body( $json );
+    $c->log->warn('/post/preview used; please replace with /forumcode/preview');
+    $c->forward('/forumcode/preview');
     return;
 }
 

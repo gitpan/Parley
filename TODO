@@ -1,9 +1,11 @@
 TODO LIST
 
+  - investigate "use base 'Catalyst::Controller'" and Class::C3
+  - refactor/tidy conf file(s)
+  - move search_dialog inline styles into CSS file
+  - fix "oversized image" bug
   - local file permissions (for avatar uploads)
-  - optional ReCAPTCHA during sign-up
   - optional google ads
-  - optional google analytics
   - 11:58 <marcus> btw did you consider packing the css and js to reduce the number of includes?
     http://search.cpan.org/~pmichaux/JavaScript-Minifier-1.05/lib/JavaScript/Minifier.pm
     http://search.cpan.org/~pmichaux/CSS-Minifier-0.01/lib/CSS/Minifier.pm
@@ -20,7 +22,6 @@ TODO LIST
   - investigate in-application language preference/choice
   - write some sensible T&Cs
   - update avatar update response to force a No-Cache?
-  - advanced search page
   - proper moderator support/management
      - forum creation
      - abuse handling
@@ -30,13 +31,20 @@ TODO LIST
   - 'smileys'?
   - realtime time-format example update (my/prefs - tab_time)
   - timezone menu usability
-  - skinning (user pref overrides CSS used?)
   - posting page ForumCode help/tips
   - database versioning
   - ForumCode: thumbnail image, lightbox view?
   - investigate: package Your::Schema; sub connect { do the check; next::method }
   - investigate: DBIx::Class::Schema::Versioned
   - investigate: t/model_Post.t / distinct count
+D - update i18n from Advanced Search additions
+D - optional ReCAPTCHA during sign-up
+D - optional google analytics
+D - advanced search page
+D - fix "user information" CSS location
+D - skinning (user pref overrides CSS used?)
+D - skinning (config frile driven)
+D - use HTML::ForumCode::Cookbook::Recipe1 for message preview(s)
 D - fix <ul>/<ol> CSS
 D - setup guide; add mailing list details
 D - get latest i18n from DJ

@@ -59,6 +59,14 @@ my %dfv_profile_for = (
         ],
     },
 
+    skin => {
+        required => [
+            qw(
+                skin
+            )
+        ],
+    },
+
     user_avatar => {
         required => [
             qw(
@@ -133,7 +141,8 @@ sub preferences : Local {
 
     # show a specific tab?
     if (defined $c->request->param('tab')) {
-        $c->flash->{show_pref_tab} ||= 'tab_' . $c->request->param('tab');
+        $c->session->{show_pref_tab} = 'tab_' . $c->request->param('tab');
+        $c->log->warn( $c->session->{show_pref_tab} );
     }
 
     # formfill/stash data
@@ -167,6 +176,18 @@ sub preferences : Local {
         }
     );
     $c->stash->{thread_watches} = $watches;
+
+    # skin
+    $c->stash->{formdata}{skin}
+        = (
+            $c->_authed_user()->preference()->skin()
+                or
+            $c->config->{site_skin}
+                or
+            q{base}
+        )
+    ;
+    $c->log->debug('pref-site-skin: ' . $c->stash->{formdata}{skin});
 
     return;
 }
@@ -205,7 +226,7 @@ sub update :Path('/my/preferences/update') {
     if ('time_format' eq $form_name) {
         # return to the right tab
         # use session flash, or we lose the info with the redirect
-        $c->flash->{show_pref_tab} = 'tab_time';
+        $c->session->{show_pref_tab} = 'tab_time';
 
         $ok_update = $self->_process_form_time_format( $c );
     }
@@ -213,15 +234,23 @@ sub update :Path('/my/preferences/update') {
     elsif ('notifications' eq $form_name) {
         # return to the right tab
         # use session flash, or we lose the info with the redirect
-        $c->flash->{show_pref_tab} = 'tab_notifications';
+        $c->session->{show_pref_tab} = 'tab_notifications';
 
         $ok_update = $self->_process_form_notifications( $c );
+    }
+    # are we updating the skin
+    elsif ('skin' eq $form_name) {
+        # return to the right tab
+        # use session flash, or we lose the info with the redirect
+        $c->session->{show_pref_tab} = 'tab_skin';
+
+        $ok_update = $self->_process_form_skin( $c );
     }
     # are we updating the avatar
     elsif ('user_avatar' eq $form_name) {
         # return to the right tab
         # use session flash, or we lose the info with the redirect
-        $c->flash->{show_pref_tab} = 'tab_avatar';
+        $c->session->{show_pref_tab} = 'tab_avatar';
 
         $ok_update = $self->_process_form_avatar( $c );
     }
@@ -386,6 +415,31 @@ sub _process_form_notifications {
     $c->_authed_user()->preference()->notify_thread_watch(
         $c->form->valid('notify_thread_watch')
     );
+
+    # store changes
+    $c->_authed_user()->preference()->update;
+
+    return 1;
+}
+
+sub _process_form_skin {
+    my ($self, $c) = @_;
+
+    if (not $self->_form_data_valid($c)) {
+        return;
+    }
+
+    # if our skin is 'base' set the preference to NULL
+    if (q{base} eq $c->form->valid('skin')) {
+        $c->_authed_user()->preference()->skin(
+            undef
+        );
+    }
+    else {
+        $c->_authed_user()->preference()->skin(
+            $c->form->valid('skin')
+        );
+    }
 
     # store changes
     $c->_authed_user()->preference()->update;

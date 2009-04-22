@@ -20,11 +20,19 @@ body {
     text-align: left;
 }
 
+#advanced_search input[type="text"] {
+    width:      30em;
+}
+
+#advanced_search select.multiple {
+    width:      20em;
+}
+
 div#ft   {background: #666;color: #FFF; font-size: 77%; margin-top: 20px;}
 div#ft p {border:none;margin-top:30px;padding:5px 10px 5px 10px; text-align:right;display:block;}
 div#ft a {color: #ccc;}
 
-div#user_information {
+div#Xuser_information {
     line-height:        1em;
     font-size:          85%;
     color:              #000;
@@ -36,6 +44,19 @@ div#user_information {
     width:              200px;
     padding-top:        3px;
     text-align:         center;
+}
+div#user_information {
+    background-color:   transparent;
+    color:              #000000;
+    font-size:          85%;
+    height:             70px;
+    line-height:        1em;
+    margin-left:        760px;
+    padding-top:        3px;
+    right:              8px;
+    text-align:         center;
+    top:                0px;
+    width:              200px;
 }
 
 div#user_information .user_info_actions {
@@ -91,14 +112,17 @@ a, a:link, a:visited, a:active {
 }
 
 /* lists */
-ol li {
-    list-style-type:        decimal;
+ol > li, ul > li {
+    margin-left:            8px;
     list-style-position:    inside;
 }
 
-ul li {
+ol > li {
+    list-style-type:        decimal;
+}
+
+ul > li {
     list-style-type:        disc;
-    list-style-position:    inside;
 }
 
 
@@ -155,6 +179,10 @@ th {
 }
 
 /* style classes */
+
+.add_this {
+    text-align:         right;
+}
 
 .admin_edited_post {
     color:              #000;
@@ -254,6 +282,24 @@ th {
     line-height:        120%;
     padding-left:       10px;
     padding-right:      10px;
+}
+
+.googlead_728_90 {
+    display:                block;
+    margin-top:             10px;
+    margin-left:            auto;
+    margin-right:           auto;
+    margin-bottom:          10px;
+    text-align:             center;
+}
+
+.google_ad_thread_view {
+    display:            block;
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-top:         5px;
+    margin-bottom:      5px;
+    min-height:         90px;
 }
 
 .help li {
@@ -615,6 +661,17 @@ a[href $='.pdf']{
     background-color:   #eee;
     font-size:          93%;
     width:              450px;
+}
+
+#validation_errors {
+    display:            block;
+    font-size:          83%;
+    border:             1px dashed #89d;
+    margin-top:         10px;
+    margin-bottom:      10px;
+    margin-left:        25px;
+    margin-right:       25px;
+    padding:            3px;
 }
 
 #ysearch {

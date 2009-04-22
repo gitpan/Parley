@@ -4,7 +4,9 @@ use strict;
 use warnings;
 
 use Parley::Version;  our $VERSION = $Parley::VERSION;
-use base 'Catalyst::Controller';
+use base qw<
+    Catalyst::Controller::Validation::DFV
+>;
 
 use DateTime;
 use List::MoreUtils qw(uniq);
@@ -32,7 +34,6 @@ sub begin :Private {
 
     return 1;
 }
-
 
 # pre-populate values in the stash if we're given "appropriate" information:
 # - _authed_user
@@ -282,6 +283,9 @@ sub access_denied :Local {
 # deal with the end of the phase
 sub render : ActionClass('RenderView') {
     my ($self, $c) = @_;
+    
+    # deal with any skinning
+    $c->forward('skin');
 
     # if we have any error(s) in the stash, automatically show the error page
     if (defined $c->stash->{error}) {
@@ -295,18 +299,51 @@ sub render : ActionClass('RenderView') {
     }
 }
 
+sub skin : Private {
+    my ($self, $c) = @_;
+
+    my $skin = $c->skin;
+
+    # we always want root (do we?)
+    my $include_path = [
+        $c->path_to( 'root' ),
+    ];
+
+    # if we are skinned?
+    if (defined $skin) {
+        # we always want root and "skin dir"
+        push @{$include_path}, 
+            $c->path_to( 'root', $skin);
+
+        # we /might/ want to fall back on the default (base)
+        if ($c->config->{skin_default_fallback}) {
+            push @{$include_path}, 
+                $c->path_to( 'root', 'base' );
+        }
+    }
+    # use the base/ templates
+    else {
+        push @{$include_path}, 
+            $c->path_to( 'root', 'base' );
+    }
+
+    # always (re)set the INCLUDE_PATH for TT
+    $c->view('TT')->{include_path} = $include_path;
+}
+
 sub end : Private {
     my ($self, $c) = @_;
-    $c->forward('render');
 
+    # move some data into the stash
+    $c->stash->{authed_user}    = $c->_authed_user;
+    $c->stash->{current_post}   = $c->_current_post;
+    $c->stash->{current_thread} = $c->_current_thread;
+    $c->stash->{current_forum}  = $c->_current_forum;
+
+    # render the page
+    $c->forward('render');
     # fill in any forms
-    $c->fillform(
-        {
-            # combine two hashrefs so we only make one method call
-            %{ $c->request->parameters || {} },
-            %{ $c->stash->{formdata}   || {} },
-        }
-    );
+    $c->forward('refill_form');
 }
 
 
